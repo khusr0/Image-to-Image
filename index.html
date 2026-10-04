@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#161819" />
+  <title>Image Studio — Gemini</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span class="gemini-mark"><i></i><i></i><i></i><i></i></span><span>IMAGE <b>STUDIO</b></span></div>
+    <button class="new-project" id="newProject"><span>＋</span> New creation</button>
+    <div class="side-label">CREATE</div>
+    <button class="nav-item active"><span class="nav-icon">▧</span> Image Studio</button>
+    <button class="nav-item"><span class="nav-icon">◷</span> Your creations</button>
+    <div class="side-label recent-label">RECENT</div>
+    <button class="recent-item"><span class="recent-index">01</span> Sunday in the garden</button>
+    <button class="recent-item"><span class="recent-index">02</span> Summer campaign</button>
+    <button class="recent-item"><span class="recent-index">03</span> Product moodboard</button>
+    <div class="sidebar-bottom"><button class="profile"><span class="avatar">R</span><span class="profile-name"><b>R. Khusro</b></span><span class="dots" aria-hidden="true">···</span></button></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><div class="crumb"><span class="header-mark">▧</span><b>Image Studio</b></div><div class="top-actions"><span class="model-pill"><span class="status-dot"></span> Gemini 3.1 Flash Image</span><button class="key-button" id="apiKeyButton">API key <span aria-hidden="true">↗</span></button><button class="help" aria-label="Help">?</button></div></header>
+    <section class="studio">
+      <div class="heading"><div class="workflow-title"><div><span class="eyebrow">IMAGE GENERATION</span><h1>New creation</h1></div><span class="workflow-steps"><b>01</b> References <i>—</i> <b>02</b> Prompt <i>—</i> <b>03</b> Generate</span></div></div>
+      <div class="workspace-grid">
+        <section class="input-panel">
+          <div class="panel-heading"><div><span class="step">01</span><h2>References</h2></div><span class="hint" id="imageCount">Up to 8 images</span></div>
+          <label class="dropzone" id="dropzone" for="fileInput">
+            <input id="fileInput" type="file" accept="image/*" multiple />
+            <span class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15.5v3A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-3"/></svg></span>
+            <strong>Add reference images</strong><span class="drop-sub">Drop files or <u>browse</u></span><span class="formats">PNG, JPG, WEBP <i>·</i> 20 MB max per image</span>
+          </label>
+          <div class="thumbs" id="thumbs"></div>
+          <div class="section-divider"></div>
+          <div class="panel-heading context-heading"><div><span class="step">02</span><h2>Prompt</h2></div></div>
+          <label class="sr-only" for="prompt">Describe what you want to create</label>
+          <textarea id="prompt" maxlength="600" placeholder="Describe the image you want to create.&#10;&#10;Specify what to combine, preserve, or change across your references."></textarea>
+          <div class="prompt-foot"><span>Be specific about what to keep, change, or combine.</span><span id="charCount">0 / 600</span></div>
+          <div class="suggestions"><span class="suggest-label">START WITH</span><button data-prompt="Combine my images into a cohesive editorial photograph with soft natural light and a warm film texture.">Editorial</button><button data-prompt="Create a polished product hero image using these references, with a clean studio background and subtle shadows.">Product</button><button data-prompt="Blend these images into a dreamy, surreal scene while preserving the key details from each.">Surreal</button></div>
+          <button class="generate" id="generate"><span class="button-spark">✦</span><span>Generate</span><span class="arrow">↗</span></button>
+          <p class="fineprint"><a href="https://gemini.google/overview/image-generation/" target="_blank" rel="noreferrer">Gemini image generation ↗</a></p>
+        </section>
+        <section class="result-panel">
+          <div class="result-header"><div><span class="step">04</span><h2>Output</h2></div><button class="history-button" id="historyButton">⟲ <span>History</span></button></div>
+          <div class="result-canvas" id="resultCanvas">
+            <div class="empty-state" id="emptyState"><div class="empty-art" aria-hidden="true"><span class="canvas-corner corner-tl"></span><span class="canvas-corner corner-tr"></span><span class="canvas-corner corner-bl"></span><span class="canvas-corner corner-br"></span><span class="canvas-cross">＋</span></div><strong>Canvas ready</strong><p>Your generated image will appear here.</p></div>
+            <div class="loading-state hidden" id="loadingState"><div class="loader-mark"><i></i><i></i><i></i><i></i></div><strong>Bringing it all together</strong><p>Gemini is imagining your creation…</p><div class="loading-bar"><span></span></div></div>
+            <div class="generated-state hidden" id="generatedState"><img id="outputImage" alt="Generated image preview"/><div class="output-overlay"><span class="generated-tag">✦ &nbsp;GENERATED WITH GEMINI</span><button id="downloadButton" aria-label="Download image">↓</button></div></div>
+          </div>
+          <div class="result-footer"><div class="result-note"><span class="sparkle-small">✦</span><span id="resultMessage">Your generated image will appear here</span></div><div class="result-controls"><button id="regenerate" disabled title="Regenerate">↻</button><button id="downloadLink" disabled>↓ &nbsp;Download</button></div></div>
+          <div class="privacy-note"><span>♧</span><span>Your images stay yours. <a href="https://support.google.com/gemini/answer/13594961" target="_blank" rel="noreferrer">Learn about privacy</a></span></div>
+        </section>
+      </div>
+      <footer class="studio-footer"><span>REFERENCE → PROMPT → GENERATE</span><span>Gemini image generation</span></footer>
+    </section>
+  </main>
+  <dialog class="key-dialog" id="keyDialog" aria-labelledby="keyDialogTitle">
+    <form id="keyForm">
+      <button type="button" class="dialog-close" id="closeKeyDialog" aria-label="Close">×</button>
+      <span class="dialog-spark">✦</span>
+      <h2 id="keyDialogTitle">Connect your Gemini API key</h2>
+      <p>Gemini needs an API key to generate your image. It stays in this browser tab and is sent directly to Google.</p>
+      <label for="apiKeyInput">Gemini API key</label>
+      <input id="apiKeyInput" type="password" autocomplete="off" placeholder="Paste your API key" required />
+      <div class="key-help"><a href="https://aistudio.google.com/apikey" target="_blank" rel="noreferrer">Get an API key from Google AI Studio ↗</a><span id="keyError" role="status"></span></div>
+      <div class="dialog-actions"><button type="button" class="dialog-cancel" id="cancelKeyDialog">Cancel</button><button type="submit" class="dialog-save">Save and continue</button></div>
+      <button type="button" class="dialog-clear hidden" id="clearKeyButton">Remove saved key from this tab</button>
+    </form>
+  </dialog>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
